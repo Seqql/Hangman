@@ -23,17 +23,21 @@ namespace HangMan
 
         public static void Start(ref bool restart)
         {
-            bool gewonnen = false;
+            bool? gewonnen = false;
 
             Console.WriteLine("Enter you word");
 
             ScreenOptions.read();
 
-            while (!gewonnen)
+            while (gewonnen == false)
             {
                 ScreenOptions.check(ref gewonnen);
             }
             
+            if(gewonnen == true)
+                Console.WriteLine("Gewonnen!");
+            else if(gewonnen == null)
+                Console.WriteLine("Verloren!");
 
             Console.WriteLine("Again?(y/n)");
             ConsoleKeyInfo keyinfo = Console.ReadKey();
