@@ -6,12 +6,14 @@ namespace HangMan
     {
         public static void Main(string[] args)
         {
+            ScreenOptions so = new ScreenOptions();
+
             Console.ForegroundColor = ConsoleColor.Green;
             bool restart = true;
             do
             {
-                ScreenOptions.Buchstabe.Clear();
-                ScreenOptions.Used.Clear();
+                so.Buchstabe.Clear();
+                so.Used.Clear();
                 Start(ref restart);
             }
             while (restart);
@@ -24,14 +26,15 @@ namespace HangMan
         public static void Start(ref bool restart)
         {
             bool? gewonnen = false;
+            ScreenOptions so = new ScreenOptions();
 
             Console.WriteLine("Enter you word");
 
-            ScreenOptions.read();
+            so.read();
 
             while (gewonnen == false)
             {
-                ScreenOptions.check(ref gewonnen);
+                so.check(ref gewonnen);
             }
             
             if(gewonnen == true)

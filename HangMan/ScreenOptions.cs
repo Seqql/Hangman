@@ -6,11 +6,15 @@ namespace HangMan
 {
     class ScreenOptions
     {
-
-
-        public static List<Wort> Buchstabe = new List<Wort>();
-        public static List<string> Used = new List<string>();        
-        public static int hangman = -1;
+        public ScreenOptions()
+        {
+            Draw += hangman.drawhangman;
+        }
+        public event EventHandler Draw;
+        public List<Wort> Buchstabe = new List<Wort>();
+        public  List<string> Used = new List<string>();
+        public  HangMan hangman = new HangMan(-1);
+        
         //index.hangman =*
         //0.0 =|     | Correct
         //1.0 =|-----| Correct
@@ -22,7 +26,7 @@ namespace HangMan
         //7.5 =   |     / \ 
 
 
-        public static void read()
+        public void read()
         {
             Wort w;
             ConsoleKeyInfo keyinfo;
@@ -68,11 +72,11 @@ namespace HangMan
 
         }
 
-        public static void check(ref bool? gewonnen)
+        public void check(ref bool? gewonnen)
         {
            
                 
-
+            
             //Prüft ob schon alle Buchstaben erraten sind
             if (check_all())
             {
@@ -101,16 +105,12 @@ namespace HangMan
                     Used.Add(s);
                 else if(check_used(s))
                     Used.Add(s);
-
-                hangman++;
-
-
-                
+                hangman.counter++;
 
             }
             
             Console.Clear();
-            Console.WriteLine("  " + space(Used.Count) + drawhangman(4));
+            Console.WriteLine("  " + space(Used.Count) + draw_event(4));
 
             //Schreibt die geschrieben Buchstaben 
             foreach (var item in Buchstabe)
@@ -120,8 +120,8 @@ namespace HangMan
                 else
                     Console.Write("  _");
             }
-            Console.Write("  " + space(Used.Count).Substring(0, space(Used.Count).Length - (Buchstabe.Count *3)) + drawhangman(3) + drawhangman(5));
-            Console.WriteLine(Environment.NewLine + "  " + space(Used.Count) + drawhangman(2) + drawhangman(6)); 
+            Console.Write("  " + space(Used.Count).Substring(0, space(Used.Count).Length - (Buchstabe.Count *3)) + draw_event(3) + draw_event(5));
+            Console.WriteLine(Environment.NewLine + "  " + space(Used.Count) + draw_event(2) + draw_event(6)); 
 
             //Schreibt die schon genutzten Buchstaben
             foreach (var item in Used)
@@ -130,12 +130,12 @@ namespace HangMan
             }
 
             
-            Console.WriteLine("  " + space(Used.Count).Substring(0, space(Used.Count).Length - (Used.Count * 3)) + drawhangman(2) + drawhangman(7));
-            Console.WriteLine("  " + space(Used.Count) + drawhangman(1));
-            Console.WriteLine("  " + space(Used.Count) + drawhangman(0));
+            Console.WriteLine("  " + space(Used.Count).Substring(0, space(Used.Count).Length - (Used.Count * 3)) + draw_event(2) + draw_event(7));
+            Console.WriteLine("  " + space(Used.Count) + draw_event(1));
+            Console.WriteLine("  " + space(Used.Count) + draw_event(0));
 
 
-            if (hangman > 4)            
+            if (hangman.counter > 4)           
                 gewonnen = null;
                 
             
@@ -163,30 +163,14 @@ namespace HangMan
             }
             return true;
         }
-
-        private static string drawhangman(int index)
+        private string draw_event(int index)
         {
-            if (index == 0 && hangman >= 0)//Correct
-                return "|     |";
-            else if (index == 1 && hangman >= 0)//Correct
-                return "|-----|";
-            else if (index == 2 && hangman >= 1) //Correct
-                return "   |";
-            else if (index == 3 && hangman >= 1) //Correct
-                return "   |/";
-            else if (index == 4 && hangman >= 2) //Correct
-                return "   |------|";
-            else if (index == 5 && hangman >= 3) //Correct
-                return "     O";
-            else if (index == 6 && hangman >= 4) //Correct
-                return "     \\|/";
-            else if (index == 7 && hangman >= 5) //Correct 
-                return "     / \\";
-            
-
+            if (Draw != null)
+                Draw(this, new HangmanEventArgs(index));
 
             return "";
         }
+        
         private static string space(int min)
         {
             string s = "";
