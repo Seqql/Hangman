@@ -74,9 +74,6 @@ namespace HangMan
 
         public void check(ref bool? gewonnen)
         {
-           
-                
-            
             //Prüft ob schon alle Buchstaben erraten sind
             if (check_all())
             {
@@ -84,8 +81,7 @@ namespace HangMan
                 return;
             }
 
-            ConsoleKeyInfo keyInfo;
-            keyInfo = Console.ReadKey();
+            ConsoleKeyInfo keyInfo = Console.ReadKey();
             bool inWord = false;
             string s = Convert.ToString(keyInfo.Key);
             //Prüft ob der Buchstabe in dem Wort vorkommt
@@ -110,7 +106,9 @@ namespace HangMan
             }
             
             Console.Clear();
-            Console.WriteLine("  " + space(Used.Count) + draw_event(4));
+            Console.Write("  " + space(Used.Count));
+            draw_event(4);
+            Console.Write(Environment.NewLine);
 
             //Schreibt die geschrieben Buchstaben 
             foreach (var item in Buchstabe)
@@ -120,19 +118,31 @@ namespace HangMan
                 else
                     Console.Write("  _");
             }
-            Console.Write("  " + space(Used.Count).Substring(0, space(Used.Count).Length - (Buchstabe.Count *3)) + draw_event(3) + draw_event(5));
-            Console.WriteLine(Environment.NewLine + "  " + space(Used.Count) + draw_event(2) + draw_event(6)); 
-
+            Console.Write("  " + space(Used.Count).Substring(0, space(Used.Count).Length - (Buchstabe.Count * 3)));
+            draw_event(3);
+            draw_event(5);
+            Console.Write(Environment.NewLine);
+            Console.Write("  " + space(Used.Count));
+            draw_event(2);
+            draw_event(6);
+            Console.Write(Environment.NewLine);
             //Schreibt die schon genutzten Buchstaben
             foreach (var item in Used)
             {               
                 Console.Write("  " + item);
             }
 
-            
-            Console.WriteLine("  " + space(Used.Count).Substring(0, space(Used.Count).Length - (Used.Count * 3)) + draw_event(2) + draw_event(7));
-            Console.WriteLine("  " + space(Used.Count) + draw_event(1));
-            Console.WriteLine("  " + space(Used.Count) + draw_event(0));
+
+            Console.Write("  " + space(Used.Count).Substring(0, space(Used.Count).Length - (Used.Count * 3)));
+            draw_event(2);
+            draw_event(7);
+            Console.Write(Environment.NewLine);
+            Console.Write("  " + space(Used.Count));
+            draw_event(1);
+            Console.Write(Environment.NewLine);
+            Console.Write("  " + space(Used.Count));
+            draw_event(0);
+            Console.Write(Environment.NewLine);
 
 
             if (hangman.counter > 4)           
@@ -141,7 +151,7 @@ namespace HangMan
             
         }
 
-        private static bool check_all()
+        private bool check_all()
         {
             bool b = true;
             foreach (var item in Buchstabe)
@@ -153,7 +163,7 @@ namespace HangMan
             }
             return b;
         }
-        private static bool check_used(string s)
+        private bool check_used(string s)
         {
             
             foreach (var item in Used)
@@ -171,7 +181,7 @@ namespace HangMan
             return "";
         }
         
-        private static string space(int min)
+        private string space(int min)
         {
             string s = "";
 
