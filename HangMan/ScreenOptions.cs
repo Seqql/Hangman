@@ -106,7 +106,7 @@ namespace HangMan
             }
             
             Console.Clear();
-            Console.Write("  " + space(Used.Count));
+            Console.Write("  " + space(longest()));
             draw_event(4);
             Console.Write(Environment.NewLine);
 
@@ -118,11 +118,11 @@ namespace HangMan
                 else
                     Console.Write("  _");
             }
-            Console.Write("  " + space(Used.Count).Substring(0, space(Used.Count).Length - (Buchstabe.Count * 3)));
+            Console.Write("  " + space(longest()).Substring(0, space(longest()).Length - (Buchstabe.Count * 3)));
             draw_event(3);
             draw_event(5);
             Console.Write(Environment.NewLine);
-            Console.Write("  " + space(Used.Count));
+            Console.Write("  " + space(longest()));
             draw_event(2);
             draw_event(6);
             Console.Write(Environment.NewLine);
@@ -133,14 +133,14 @@ namespace HangMan
             }
 
 
-            Console.Write("  " + space(Used.Count).Substring(0, space(Used.Count).Length - (Used.Count * 3)));
+            Console.Write("  " + space(longest()).Substring(0, space(longest()).Length - (Used.Count * 3)));
             draw_event(2);
             draw_event(7);
             Console.Write(Environment.NewLine);
-            Console.Write("  " + space(Used.Count));
+            Console.Write("  " + space(longest()));
             draw_event(1);
             Console.Write(Environment.NewLine);
-            Console.Write("  " + space(Used.Count));
+            Console.Write("  " + space(longest()));
             draw_event(0);
             Console.Write(Environment.NewLine);
 
@@ -199,6 +199,14 @@ namespace HangMan
                 }
             }
             return s;
+        }
+
+        private int longest()
+        {
+            if (Used.Count > Buchstabe.Count)
+                return Used.Count;
+            else
+                return Buchstabe.Count;
         }
     }
     }
